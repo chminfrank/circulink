@@ -96,7 +96,14 @@
   }
 
   /* ---------- 匹配算法 ---------- */
-  function scoreCompany(input, tag) {
+  /* 容量：企业=在招实习生名额合计；院校=可提供实习名额 */
+  function capacityOf(item, kind) {
+    if (!item) return 0;
+    if (kind === "school") return item.interns || 0;
+    return (item.jobs || []).reduce(function (a, j) { return a + (j.count || 0); }, 0);
+  }
+
+  function scoreCompany(input, tag, item) {
     var score = 0;
     // 方向标签重合
     input.fields.forEach(function (f) {
@@ -113,7 +120,7 @@
       if (input.subsidy >= lo && input.subsidy <= hi) score += 2;
     }
     // 体量
-    if (input.size && tag.size === input.size) score += 1;
+    if (input.headcount) { var capC = capacityOf(item, "company"); if (capC >= input.headcount) score += 2; }
     // 自定义标签命中企业名/简介/方向
     if (input.other) {
       var kw = input.other.toLowerCase();
@@ -122,7 +129,7 @@
     return score;
   }
 
-  function scoreSchool(input, tag) {
+  function scoreSchool(input, tag, item) {
     var score = 0;
     input.fields.forEach(function (f) {
       if (tag.fields.indexOf(f) >= 0) score += 2;
@@ -135,6 +142,7 @@
       var lo = tag.expectMin * 0.8, hi = tag.expectMax * 1.2;
       if (input.subsidy >= lo && input.subsidy <= hi) score += 2;
     }
+    if (input.headcount) { var capS = capacityOf(item, "school"); if (capS >= input.headcount) score += 2; }
     if (input.other) {
       var kw = input.other.toLowerCase();
       if (tag.fields.join(" ").toLowerCase().indexOf(kw) >= 0) score += 2;
@@ -187,7 +195,7 @@
       field: (form.querySelector('[name="field"]') || {}).value || "",
       city: (form.querySelector('[name="city"]') || {}).value || "",
       subsidy: parseFloat((form.querySelector('[name="subsidy"]') || {}).value) || 0,
-      size: (form.querySelector('[name="size"]') || {}).value || "",
+      headcount: parseInt((form.querySelector('[name="headcount"]') || {}).value, 10) || 0,
       other: ((form.querySelector('[name="other"]') || {}).value || "").trim(),
       /* 单位 / 联系人 / 联系方式全部取自登录账号，表单不再重复收集 */
       contact: au.contact || "",
@@ -202,20 +210,20 @@
     if (mode === "school") {
       COMPANIES.forEach(function (c) {
         var tag = (MATCH_TAGS.companies || {})[c.id] || {};
-        var s = scoreCompany(input, tag);
+        var s = scoreCompany(input, tag, c);
         if (s > 0) scored.push({ item: c, score: Math.min(100, Math.round(s * 14)) });
       });
     } else {
-      SCHOOLS.forEach(function (s) {
-        var tag = (MATCH_TAGS.schools || {})[s.id] || {};
-        var sc = scoreSchool(input, tag);
-        if (sc > 0) scored.push({ item: s, score: Math.min(100, Math.round(sc * 14)) });
+      SCHOOLS.forEach(function (sch) {
+        var tag = (MATCH_TAGS.schools || {})[sch.id] || {};
+        var sc = scoreSchool(input, tag, sch);
+        if (sc > 0) scored.push({ item: sch, score: Math.min(100, Math.round(sc * 14)) });
       });
     }
     scored.sort(function (a, b) { return b.score - a.score; });
 
     if (scored.length === 0) {
-      saveDemand({ mode: mode, time: new Date().toISOString(), orgName: input.orgName, grade: input.grade, field: input.field, city: input.city, subsidy: input.subsidy, size: input.size, other: input.other, contact: input.contact, contactway: input.contactway });
+      saveDemand({ mode: mode, time: new Date().toISOString(), orgName: input.orgName, grade: input.grade, field: input.field, city: input.city, subsidy: input.subsidy, headcount: input.headcount, other: input.other, contact: input.contact, contactway: input.contactway });
       var noneKey = mode === "school" ? "match.result.none" : "match.result.none.c";
       resultBox.innerHTML = t("match.registered") + "<br>" + t(noneKey) + "：" + (input.fields.join(" / ") || "—") +
         "<br>" + t("match.result.none2");
@@ -552,15 +560,9 @@
     form.querySelector('[name="grade"]').innerHTML = '<option value="">' + t("match.grade") + "</option>" +
       [["大一", "match.g1"], ["大二", "match.g2"], ["大三", "match.g3"], ["大四", "match.g4"]].map(function (g) { return '<option value="' + g[0] + '">' + t(g[1]) + "</option>"; }).join("");
 
-    var sizeSel = form.querySelector('[name="size"]');
-    if (sizeSel) {
-      sizeSel.innerHTML = '<option value="">' + (mode === "school" ? t("match.size") : t("match.size.c")) + "</option>" +
-        [["大型", "match.l"], ["中型", "match.m"], ["小型", "match.s"]].map(function (g) { return '<option value="' + g[0] + '">' + t(g[1]) + "</option>"; }).join("");
-    }
-
-    form.querySelectorAll("select").forEach(function (sel) {
-      var v = saved[sel.getAttribute("name")];
-      if (v) sel.value = v;
+    form.querySelectorAll("select, input").forEach(function (el) {
+      var v = saved[el.getAttribute("name")];
+      if (v !== undefined && v !== "" && v !== null) el.value = v;
     });
   }
 
