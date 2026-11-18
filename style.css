@@ -720,3 +720,55 @@ p { margin: 0; }
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center 45%; display: block;
 }
+
+/* ───────────── 高级筛选（京东式分组） ───────────── */
+.adv-filter {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: var(--paper); margin-bottom: 40px;
+}
+.adv-head {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 12px 0 12px; border-bottom: 1px solid var(--line);
+}
+.adv-title {
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  padding-left: 10px; border-left: 3px solid var(--blue);
+}
+.adv-shown-wrap { font-size: 13px; color: var(--muted); }
+.adv-shown-wrap b { color: var(--ink); font-weight: 700; }
+.adv-clear, .adv-toggle {
+  font-size: 13px; padding: 6px 12px; border: 1px solid var(--line-dark);
+  background: var(--paper); color: var(--muted); border-radius: 0;
+}
+.adv-clear { margin-left: auto; color: var(--danger); border-color: var(--danger); }
+.adv-clear:hover { background: var(--danger); color: #fff; }
+.adv-toggle:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+.adv-body { padding: 4px 0 10px; }
+.adv-filter.collapsed .adv-body { display: none; }
+.adv-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 10px 0; border-bottom: 1px dashed var(--line);
+}
+.adv-row:last-child { border-bottom: 0; }
+.adv-label {
+  flex: 0 0 150px; font-size: 13px; font-weight: 700; color: var(--ink);
+  padding-top: 7px; line-height: 1.35;
+}
+.adv-opts { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 auto; }
+.adv-chip {
+  font-size: 13px; padding: 6px 12px; border: 1px solid var(--line);
+  background: var(--paper); color: var(--muted); border-radius: 0; cursor: pointer;
+}
+.adv-chip:hover { border-color: var(--ink); color: var(--ink); }
+.adv-chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.adv-more {
+  font-size: 13px; padding: 6px 4px; border: 0; background: none;
+  color: var(--blue); cursor: pointer;
+}
+.adv-more:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .adv-row { flex-direction: column; gap: 6px; }
+  .adv-label { flex: none; padding-top: 0; }
+}

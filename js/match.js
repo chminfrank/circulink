@@ -255,28 +255,123 @@
   var activeSort = {};
   var keyword = {};
 
+  /* ---------- 高级筛选：分组 / 多选 / 可收起 ---------- */
+  var OPEN_ROWS = 8;
+  var shownCount = {};          // 每组默认露出多少个选项，其余收进「更多」
+  var expandedRows = {};      // mode:group -> true
+  var collapsedPanel = {};    // mode -> true（整个面板收起）
+
+  function uniq(arr) {
+    var out = [], seen = {};
+    arr.forEach(function (v) {
+      if (v && !seen[v]) { seen[v] = true; out.push(v); }
+    });
+    return out;
+  }
+
+  var LEVEL_EN = {
+    "技师学院": "Technician College",
+    "高职专科": "Higher Vocational",
+    "职业本科": "Vocational Degree",
+    "中职": "Secondary Vocational"
+  };
+  function lab(v) {
+    if (!(window.getLang && window.getLang() === "en")) return v;
+    return DYN[v] || LEVEL_EN[v] || v;
+  }
+
+  function levelOf(s) {
+    var ty = L(s.type) || "";
+    return ty.split("·")[0].trim();
+  }
+
+  function poolOf(mode) { return mode === "school" ? COMPANIES : SCHOOLS; }
+
+  function tagOf(mode, item) {
+    var bag = mode === "school" ? (MATCH_TAGS.companies || {}) : (MATCH_TAGS.schools || {});
+    return bag[item.id] || {};
+  }
+
+  function bucketDefs(mode) {
+    if (mode === "school") {
+      return [
+        { val: "b1", label: "≤ 80", test: function (t) { return (t.subsidyMin || 0) <= 80; } },
+        { val: "b2", label: "81–100", test: function (t) { var v = t.subsidyMin || 0; return v > 80 && v <= 100; } },
+        { val: "b3", label: "101–120", test: function (t) { var v = t.subsidyMin || 0; return v > 100 && v <= 120; } },
+        { val: "b4", label: "≥ 121", test: function (t) { return (t.subsidyMin || 0) > 120; } }
+      ];
+    }
+    return [
+      { val: "b1", label: "≤ 110", test: function (t) { return (t.expectMin || 0) <= 110; } },
+      { val: "b2", label: "111–140", test: function (t) { var v = t.expectMin || 0; return v > 110 && v <= 140; } },
+      { val: "b3", label: "141–170", test: function (t) { var v = t.expectMin || 0; return v > 140 && v <= 170; } },
+      { val: "b4", label: "≥ 171", test: function (t) { return (t.expectMin || 0) > 170; } }
+    ];
+  }
+
+  /* 分组定义：scan = 从数据里自动汇总选项；buckets = 固定区间 */
+  function groupDefs(mode) {
+    if (mode === "school") {
+      return [
+        { key: "city", labelKey: "filter.city", scan: "city" },
+        { key: "field", labelKey: "filter.industry", scan: "field" },
+        { key: "allowance", labelKey: "filter.allowance", buckets: bucketDefs(mode) },
+        { key: "grade", labelKey: "filter.gradeNeed", scan: "grade" }
+      ];
+    }
+    return [
+      { key: "city", labelKey: "filter.city", scan: "city" },
+      { key: "level", labelKey: "filter.level", scan: "level" },
+      { key: "field", labelKey: "filter.major", scan: "field" },
+      { key: "allowance", labelKey: "filter.allowanceNeed", buckets: bucketDefs(mode) }
+    ];
+  }
+
+  function buildOptions(mode, def) {
+    if (def.buckets) {
+      return def.buckets.map(function (b) { return { val: b.val, label: b.label }; });
+    }
+    var vals = [];
+    poolOf(mode).forEach(function (it) {
+      var tag = tagOf(mode, it);
+      if (def.scan === "city") { if (tag.city) vals.push(tag.city); }
+      else if (def.scan === "field") { (tag.fields || []).forEach(function (f) { vals.push(f); }); }
+      else if (def.scan === "grade") { (tag.grades || []).forEach(function (g) { vals.push(g); }); }
+      else if (def.scan === "level") { var lv = levelOf(it); if (lv) vals.push(lv); }
+    });
+    return uniq(vals).map(function (v) { return { val: v, label: lab(v) }; });
+  }
+
+  function itemMatches(item, def, selected, mode) {
+    if (!selected || !selected.length) return true;
+    var tag = tagOf(mode, item);
+    if (def.buckets) {
+      return selected.some(function (v) {
+        var b = def.buckets.filter(function (x) { return x.val === v; })[0];
+        return b ? b.test(tag) : false;
+      });
+    }
+    if (def.scan === "city") return selected.indexOf(tag.city) >= 0;
+    if (def.scan === "field") {
+      return (tag.fields || []).some(function (f) { return selected.indexOf(f) >= 0; });
+    }
+    if (def.scan === "grade") {
+      return (tag.grades || []).some(function (g) { return selected.indexOf(g) >= 0; });
+    }
+    if (def.scan === "level") return selected.indexOf(levelOf(item)) >= 0;
+    return true;
+  }
+
   function renderWithFilter(mode) {
     var grid = document.getElementById("card-grid");
     if (!grid) return;
-    var f = activeFilter[mode] || { city: "", field: "", size: "" };
+    var f = activeFilter[mode] || {};
     var kw = (keyword[mode] || "").toLowerCase();
-    var items = [];
-    if (mode === "school") {
-      COMPANIES.forEach(function (c) {
-        var tag = (MATCH_TAGS.companies || {})[c.id] || {};
-        if (f.city && tag.city !== f.city) return;
-        if (f.field && tag.fields.indexOf(f.field) < 0) return;
-        if (f.size && tag.size !== f.size) return;
-        items.push({ c: c, tag: tag });
-      });
-    } else {
-      SCHOOLS.forEach(function (s) {
-        var tag = (MATCH_TAGS.schools || {})[s.id] || {};
-        if (f.city && tag.city !== f.city) return;
-        if (f.field && tag.fields.indexOf(f.field) < 0) return;
-        items.push({ c: s, tag: tag });
-      });
-    }
+    var defs = groupDefs(mode);
+    var items = poolOf(mode).map(function (it) { return { c: it, tag: tagOf(mode, it) }; });
+    items = items.filter(function (x) {
+      return defs.every(function (def) { return itemMatches(x.c, def, f[def.key] || [], mode); });
+    });
     if (kw) {
       items = items.filter(function (x) {
         var hay = (L(x.c.name) + " " + L(x.c.intro) + " " + (x.tag.fields || []).join(" ") + " " + (x.tag.city || "")).toLowerCase();
@@ -292,6 +387,9 @@
     grid.innerHTML = items.map(function (x) {
       return mode === "school" ? companyCard(x.c) : schoolCard(x.c);
     }).join("");
+    shownCount[mode] = items.length;
+    var shown = document.getElementById("adv-shown");
+    if (shown) shown.textContent = items.length;
   }
 
   function buildSorts(mode) {
@@ -332,38 +430,79 @@
   function buildFilters(mode) {
     var bar = document.getElementById("filter-bar");
     if (!bar) return;
-    var chips = [];
-    if (mode === "school") {
-      /* 学校视角：按企业所在城市 / 行业 / 规模筛选 —— 生成时由 data.js 的真实标签决定 */
-      ["深圳", "东莞", "佛山", "中山", "惠州", "江门", "珠海", "广州"].forEach(function (c) { chips.push({ key: "city", val: c, label: c }); });
-      ["注塑", "电子", "五金", "小家电", "纺织", "自动化", "食品", "线束", "电镀", "机器人"].forEach(function (c) { chips.push({ key: "field", val: c, label: c }); });
-      chips.push({ key: "size", val: "中型", label: "中型" });
-    } else {
-      /* 企业视角：按院校所在城市 / 专业方向筛选 */
-      ["深圳", "广州", "佛山", "珠海", "惠州", "江门", "中山", "香港"].forEach(function (c) { chips.push({ key: "city", val: c, label: c }); });
-      ["智能制造", "电子信息", "机电", "数控", "汽车", "航空机电", "轨道交通", "工业设计"].forEach(function (c) { chips.push({ key: "field", val: c, label: c }); });
-    }
-    var f = activeFilter[mode] || { city: "", field: "", size: "" };
-    bar.innerHTML = '<span class="filter-label">' + t("filter.title") + "</span>" +
-      '<button class="filter-chip' + (!f.city && !f.field && !f.size ? " active" : "") + '" data-key="" data-val="">' + t("filter.all") + "</button>" +
-      chips.map(function (ch) {
-        var active = f[ch.key] === ch.val;
-        return '<button class="filter-chip' + (active ? " active" : "") + '" data-key="' + ch.key + '" data-val="' + ch.val + '">' + ch.label + "</button>";
+    var f = activeFilter[mode] || (activeFilter[mode] = {});
+    var defs = groupDefs(mode);
+    var total = poolOf(mode).length;
+    var picked = 0;
+    defs.forEach(function (d) { picked += (f[d.key] || []).length; });
+
+    bar.className = "adv-filter" + (collapsedPanel[mode] ? " collapsed" : "");
+
+    var head = '<div class="adv-head">' +
+      '<span class="adv-title">' + t("filter.title3") + "</span>" +
+      '<span class="adv-shown-wrap">' + t("filter.showing") +
+        ' <b id="adv-shown">' + (shownCount[mode] == null ? total : shownCount[mode]) + "</b> / " + total + " " + t("filter.unit") + "</span>" +
+      (picked ? '<button class="adv-clear" data-act="clear">' + t("filter.clear") + " (" + picked + ")</button>" : "") +
+      '<button class="adv-toggle" data-act="collapse">' +
+        (collapsedPanel[mode] ? t("filter.expand") + " ▲" : t("filter.collapse") + " ▼") + "</button>" +
+      "</div>";
+
+    var rows = defs.map(function (def) {
+      var opts = buildOptions(mode, def);
+      var sel = f[def.key] || [];
+      var ek = mode + ":" + def.key;
+      var open = !!expandedRows[ek];
+      var visible = open ? opts : opts.slice(0, OPEN_ROWS);
+      var hidden = opts.length > OPEN_ROWS;
+
+      var chips = visible.map(function (o) {
+        var on = sel.indexOf(o.val) >= 0;
+        return '<button class="adv-chip' + (on ? " active" : "") + '" data-key="' + def.key +
+          '" data-val="' + o.val.replace(/"/g, "&quot;") + '">' + o.label + "</button>";
       }).join("");
 
-    bar.querySelectorAll(".filter-chip").forEach(function (btn) {
+      var more = hidden
+        ? '<button class="adv-more" data-more="' + ek + '">' +
+            (open ? t("filter.less") : t("filter.more") + "(" + (opts.length - OPEN_ROWS) + ")") + " ▼</button>"
+        : "";
+
+      return '<div class="adv-row" data-group="' + def.key + '">' +
+        '<span class="adv-label">' + t(def.labelKey) + "：</span>" +
+        '<div class="adv-opts">' + chips + more + "</div>" +
+        "</div>";
+    }).join("");
+
+    bar.innerHTML = head + '<div class="adv-body">' + rows + "</div>";
+
+    bar.querySelectorAll(".adv-chip").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        var key = btn.getAttribute("data-key"), val = btn.getAttribute("data-val");
-        if (!key) { activeFilter[mode] = { city: "", field: "", size: "" }; }
-        else {
-          var cur = activeFilter[mode] || { city: "", field: "", size: "" };
-          if (cur[key] === val) cur[key] = "";
-          else cur[key] = val;
-          activeFilter[mode] = cur;
-        }
+        var key = btn.getAttribute("data-key");
+        var val = btn.getAttribute("data-val");
+        var cur = (activeFilter[mode][key] || []).slice();
+        var idx = cur.indexOf(val);
+        if (idx >= 0) cur.splice(idx, 1); else cur.push(val);
+        activeFilter[mode][key] = cur;
         buildFilters(mode);
         renderWithFilter(mode);
       });
+    });
+    bar.querySelectorAll("[data-more]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var ek = btn.getAttribute("data-more");
+        expandedRows[ek] = !expandedRows[ek];
+        buildFilters(mode);
+      });
+    });
+    var clearBtn = bar.querySelector('[data-act="clear"]');
+    if (clearBtn) clearBtn.addEventListener("click", function () {
+      activeFilter[mode] = {};
+      buildFilters(mode);
+      renderWithFilter(mode);
+    });
+    var tgl = bar.querySelector('[data-act="collapse"]');
+    if (tgl) tgl.addEventListener("click", function () {
+      collapsedPanel[mode] = !collapsedPanel[mode];
+      buildFilters(mode);
     });
   }
 
@@ -437,7 +576,7 @@
       form.querySelector(".btn-reset").addEventListener("click", function () {
         form.querySelectorAll("select, input").forEach(function (el) { el.value = ""; });
         document.getElementById("match-result").classList.remove("show");
-        activeFilter[mode] = { city: "", field: "", size: "" };
+        activeFilter[mode] = {};
         buildFilters(mode);
         renderWithFilter(mode);
       });
@@ -451,7 +590,7 @@
 
   /* 语言切换：重填下拉选项、刷新登录提示 */
   window.addEventListener("circu-lang-changed", function () {
-    if (window.__matchMode) fillFormOptions(window.__matchMode);
+    if (window.__matchMode) { fillFormOptions(window.__matchMode); buildFilters(window.__matchMode); buildSorts(window.__matchMode); renderWithFilter(window.__matchMode); }
     refreshLoginHint();
   });
 
