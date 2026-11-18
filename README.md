@@ -25,7 +25,6 @@ school-detail.html / company-detail.html / equipment-detail.html
 equipment.html / mentors.html      设备库 / 技师导师库
 register-school.html / register-enterprise.html
 login.html / profile.html / admin.html
-qr.html                    二维码生成
 style.css
 js/{data,render,i18n,auth,match}.js
 ```
