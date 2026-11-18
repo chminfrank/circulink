@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-title="reg.title.enterprise">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>企业需求登记</title>
+  <link rel="stylesheet" href="style.css?v=20261111" />
+</head>
+<body class="page" data-page="reg-enterprise">
+  <header class="topbar">
+    <a class="back-btn" href="enterprise.html" data-i18n="reg.back.enterprise">← 返回院校列表</a>
+    <h1 data-i18n="reg.title.enterprise"> 企业需求登记 · 大湾区院校为你推荐</h1>
+    <button class="lang-btn" type="button" aria-label="切换语言 / Switch language">
+      <span class="lang-icon"></span><span class="lang-label">EN</span>
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="match-panel">
+      <h2 data-i18n="match.title.enterprise">登记你的需求，我们为你推荐院校</h2>
+      <p class="match-sub login-hint" id="login-hint"></p>
+      <form class="match-form" id="match-form" onsubmit="return false;">
+        <div class="form-group">
+          <div class="form-group-title" data-i18n="reg.group.cond"> 匹配条件（价格 ±20% 都算匹配）</div>
+          <div class="match-form">
+            <div class="match-field">
+              <label data-i18n="match.grade">需要的实习生年级</label>
+              <select name="grade"></select>
+            </div>
+            <div class="match-field">
+              <label data-i18n="match.field">需求方向</label>
+              <select name="field"></select>
+            </div>
+            <div class="match-field">
+              <label data-i18n="match.city">期望城市</label>
+              <select name="city"></select>
+            </div>
+            <div class="match-field">
+              <label data-i18n="match.subsidy.c">可提供实习补贴（元/天）</label>
+              <input type="number" name="subsidy" min="0" data-i18n-placeholder="reg.ph.subsidy.c" placeholder="如 200" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="match.other">其他需求（可自己写标签）</label>
+              <input type="text" name="other" data-i18n-placeholder="reg.ph.other.c" placeholder="例：焊接 / 工业机器人 / 跨境电商" />
+            </div>
+          </div>
+        </div>
+        <div class="match-actions">
+          <button class="btn-match" type="button" data-i18n="match.btn">开始匹配</button>
+          <button class="btn-reset" type="button" data-i18n="match.reset">清空条件</button>
+        </div>
+      </form>
+      <p class="match-sub" style="margin:14px 0 0;" data-i18n="match.orgname.hint">登记即存底：我们保证每一条登记都有联系人，找不到人就不是我们的风格</p>
+      <div class="match-result" id="match-result"></div>
+    </section>
+
+    <p style="text-align:center;margin-top:6px;">
+      <a href="enterprise.html" style="color:var(--brick);font-weight:700;text-decoration:none;" data-i18n="reg.goList.c">先随便看看 → 全部院校</a>
+    </p>
+  </main>
+
+  <footer class="foot" data-i18n="foot.text">循环接力 CircuLink · 课堂演示项目</footer>
+  <div class="foot-polyu"><div class="brick-strip"></div>The Hong Kong Polytechnic University · MM3162 Innovation &amp; Entrepreneurship Seminar</div>
+
+  <script src="js/i18n.js?v=20261111"></script>
+  <script src="js/data.js?v=20261111"></script>
+  <script src="js/render.js?v=20261111"></script>
+  <script src="js/match.js?v=20261111"></script>
+  <script src="js/auth.js?v=20261111"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      window.initMatch("enterprise");
+    });
+  </script>
+</body>
+</html>

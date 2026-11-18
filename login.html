@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-title="auth.title">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>登录 / 注册 · CircuLink</title>
+  <link rel="stylesheet" href="style.css?v=20261111" />
+</head>
+<body class="page" data-page="login">
+  <header class="topbar">
+    <a class="back-btn" href="index.html" data-i18n="nav.back">← 返回首页</a>
+    <h1 data-i18n="auth.title">登录 / 注册</h1>
+    <button class="lang-btn" type="button" aria-label="切换语言 / Switch language">
+      <span class="lang-icon"></span><span class="lang-label">EN</span>
+    </button>
+  </header>
+
+  <main class="container auth-wrap">
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <button class="auth-tab active" type="button" data-panel="panel-login" data-i18n="auth.tab.login">登录</button>
+        <button class="auth-tab" type="button" data-panel="panel-signup" data-i18n="auth.tab.signup">注册</button>
+      </div>
+
+      <div class="auth-msg" id="auth-msg"></div>
+
+      <!-- 登录 -->
+      <div class="auth-panel" id="panel-login">
+        <form id="login-form" class="auth-form">
+          <div class="match-field">
+            <label data-i18n="auth.account">登录账号（邮箱或微信）</label>
+            <input id="l-account" type="text" autocomplete="username" data-i18n-placeholder="auth.account" placeholder="邮箱或微信号" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.pass">密码</label>
+            <input id="l-pass" type="password" autocomplete="current-password" data-i18n-placeholder="auth.pass" placeholder="密码" />
+          </div>
+          <button class="btn-match auth-submit" type="submit" data-i18n="auth.submit.login">登录</button>
+        </form>
+      </div>
+
+      <!-- 注册 -->
+      <div class="auth-panel" id="panel-signup" style="display:none;">
+        <form id="signup-form" class="auth-form">
+          <div class="match-field">
+            <label data-i18n="auth.type">我是</label>
+            <select id="s-type">
+              <option value="school" data-i18n="auth.type.school">学校（学信网认证）</option>
+              <option value="company" data-i18n="auth.type.company">企业（天眼查认证）</option>
+              <option value="hk" data-i18n="auth.type.hk">香港院校</option>
+            </select>
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.org">学校 / 企业名称</label>
+            <input id="s-org" type="text" data-i18n-placeholder="auth.org" placeholder="例：深圳职业技术大学 / 德昌电机控股" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.code">统一社会信用代码 / 学校标识码（选填，核验功能后续上线）</label>
+            <input id="s-code" type="text" placeholder="选填，核验功能后续上线后可补填" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.dept">部门（同一单位可注册多个账号）</label>
+            <input id="s-dept" type="text" data-i18n-placeholder="auth.dept" placeholder="例：机电工程系、人事部" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.contact">联系人</label>
+            <input id="s-contact" type="text" data-i18n-placeholder="auth.contact" placeholder="例：陈老师 / 张经理" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.account">登录账号（邮箱 / 微信 / 电话均可）</label>
+            <input id="s-account" type="text" data-i18n-placeholder="auth.account" placeholder="邮箱 / 微信 / 电话" />
+          </div>
+          <div class="match-field">
+            <label data-i18n="auth.pass">密码</label>
+            <input id="s-pass" type="password" data-i18n-placeholder="auth.pass" placeholder="自行设置密码" />
+          </div>
+          <div class="auth-hints">
+            <p data-i18n="auth.hint.verify">单位信息核验（天眼查 / 学信网）功能后续上线，当前请先如实填写单位名称；同一单位支持多个部门账号</p>
+          </div>
+          <button class="btn-match auth-submit" type="submit" data-i18n="auth.submit.signup">注册并登录</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot" data-i18n="foot.text">循环接力 CircuLink · 课堂演示项目</footer>
+  <div class="foot-polyu"><div class="brick-strip"></div>The Hong Kong Polytechnic University · MM3162 Innovation &amp; Entrepreneurship Seminar</div>
+
+  <script src="js/i18n.js?v=20261111"></script>
+  <script src="js/auth.js?v=20261111"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-title="title.equipment">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>设备模块 · 退役设备库</title>
+  <link rel="stylesheet" href="style.css?v=20261111" />
+</head>
+<body class="page" data-page="equipment">
+  <header class="topbar">
+    <a class="back-btn" href="index.html" data-i18n="nav.back">← 返回首页</a>
+    <h1 data-i18n="page.equipment.title"> 设备模块 · 退役设备库</h1>
+    <button class="lang-btn" type="button" aria-label="切换语言 / Switch language">
+      <span class="lang-icon"></span><span class="lang-label">EN</span>
+    </button>
+    <span class="topbar-note" data-i18n="page.equipment.note">设备流转</span>
+  </header>
+
+  <!-- HERO FOCUS：主体清晰 / 背景虚化 -->
+  <section class="hero-focus" style="--cx:64%;--cy:50%">
+    <div class="fx-photo" style="background-image:url('https://images.pexels.com/photos/11951233/pexels-photo-11951233.jpeg?auto=compress&cs=tinysrgb&w=1800');background-position:55% 50%"></div>
+    <div class="fx-veil"></div>
+    <div class="fx-scrim"></div>
+    <div class="fx-inner">
+      <p class="fx-kicker" data-i18n="hero.equipment.kicker">设备模块 · EQUIPMENT</p>
+      <h2 class="fx-title" data-i18n="hero.equipment.title">退役不等于报废</h2>
+      <p class="fx-sub" data-i18n="hero.equipment.sub">经检测的企业退役生产设备，定向捐赠给职业院校；每台设备可配一位随设备入驻的老技师。</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="page-head">
+      <h2 data-i18n="head.equipment.title">退役设备一览</h2>
+      <p data-i18n="head.equipment.desc">企业退役的生产设备，经检测后定向捐赠给职业院校，延长设备生命周期（演示数据）</p>
+    </section>
+
+    <section class="summary">
+      <div class="summary-item"><span class="summary-num">12</span><span class="summary-label" data-i18n="sum.equipment">在库退役设备（台）</span></div>
+      <div class="summary-item"><span class="summary-num">100%</span><span class="summary-label" data-i18n="sum.saved">平均省新机价</span></div>
+      <div class="summary-item"><span class="summary-num">10</span><span class="summary-label" data-i18n="sum.mentors">技师导师（位）</span></div>
+      <div class="summary-item"><span class="summary-num">24 年</span><span class="summary-label" data-i18n="sum.avgYears">平均一线经验</span></div>
+    </section>
+
+    <section class="card-grid" id="card-grid"></section>
+  </main>
+
+  <footer class="foot" data-i18n="foot.text">循环接力 CircuLink · 课堂演示项目</footer>
+
+  <script src="js/i18n.js?v=20261111"></script>
+  <script src="js/data.js?v=20261111"></script>
+  <script src="js/render.js?v=20261111"></script>
+  <script src="js/auth.js?v=20261111"></script>
+</body>
+</html>

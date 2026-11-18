@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>控制台 · 循环接力 CircuLink</title>
+  <link rel="stylesheet" href="style.css?v=20261111" />
+  <style>
+    .admin-lock { max-width: 460px; margin: 9vh auto; text-align: center; }
+    .admin-lock input { width: 100%; padding: 14px 16px; border: 2px solid var(--ink); border-radius: 0; font-size: 15px; margin: 16px 0; font-family: inherit; background: #fff; color: var(--ink); }
+    .admin-lock input:focus { outline: none; border-color: var(--gold); box-shadow: 5px 5px 0 rgba(4, 6, 76, 0.08); }
+    .admin-hidden { display: none; }
+    .admin-card { background: #fff; border: 1px solid #e2e7f3; border-top: 4px solid var(--gold); border-radius: 0; padding: 26px 26px 28px; box-shadow: 7px 7px 0 rgba(4, 6, 76, 0.05); margin-bottom: 24px; }
+    .admin-card h2 { font-size: 17px; font-weight: 900; border-left: none; padding-left: 0; margin: 0 0 16px; color: var(--ink); letter-spacing: 0.01em; }
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .admin-table th, .admin-table td { border-bottom: 1px solid #eef1f8; padding: 10px 8px; text-align: left; vertical-align: top; }
+    .admin-table th { background: var(--ink); color: var(--gold); font-size: 11.5px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+    .admin-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .admin-form label { display: block; font-size: 11.5px; font-weight: 900; letter-spacing: 0.08em; margin-bottom: 6px; color: var(--steel); }
+    .admin-form input, .admin-form select, .admin-form textarea { width: 100%; padding: 11px 13px; border: 1.5px solid #d7dded; border-radius: 0; font-size: 13.5px; font-family: inherit; background: #fff; color: var(--ink); }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: var(--gold); }
+    .admin-form .full { grid-column: 1 / -1; }
+    .admin-hint { font-size: 12px; color: var(--steel-2); margin-top: 10px; }
+    .badge { display: inline-block; padding: 3px 10px; border: 1px solid rgba(4, 6, 76, 0.14); border-radius: 0; font-size: 11px; font-weight: 900; letter-spacing: 0.06em; background: #f2f5fc; color: var(--ink); }
+    .badge.demand { background: #fff6d6; border-color: rgba(252, 194, 31, 0.6); color: #7a5c00; }
+    .badge.equipment { background: #e9f7ee; border-color: #bfe3c8; color: #1f6b34; }
+    .badge.mentor { background: #eef0ff; border-color: #c9cffa; color: #2b2f8f; }
+  </style>
+</head>
+<body class="page" data-page="admin">
+  <header class="topbar">
+    <a class="back-btn" href="index.html">← 返回网站首页</a>
+    <h1> 控制台 · CircuLink</h1>
+    <button class="lang-btn" type="button" style="opacity:0;pointer-events:none;"></button>
+  </header>
+
+  <!-- 口令门 -->
+  <main class="container">
+    <div class="admin-lock" id="admin-lock">
+      <div class="admin-card" style="text-align:center;">
+        <h2 style="border:none;padding:0;"> 控制人登录</h2>
+        <p style="color:var(--muted);font-size:13.5px;">输入口令查看后台数据（默认口令：circulink2026，可在代码里改）</p>
+        <input type="password" id="admin-pass" placeholder="请输入口令" />
+        <button class="btn-match" type="button" id="admin-unlock">进入控制台</button>
+      </div>
+    </div>
+
+    <!-- 控制台主体 -->
+    <div class="admin-hidden" id="admin-main">
+      <!-- 录入 -->
+      <section class="admin-card">
+        <h2> 录入真实数据（存入数据库）</h2>
+        <div class="admin-form" id="admin-form">
+          <div>
+            <label>录入类型</label>
+            <select id="f-type">
+              <option value="demand">需求登记（学校/企业）</option>
+              <option value="equipment">退役设备</option>
+              <option value="mentor">技师导师</option>
+            </select>
+          </div>
+          <div>
+            <label>学校 / 企业名称</label>
+            <input id="f-org" placeholder="如：深圳职业技术大学" />
+          </div>
+          <div>
+            <label>方向 / 工种 / 设备类别</label>
+            <input id="f-field" placeholder="如：智能制造 / 注塑工艺 / 数控车床" />
+          </div>
+          <div>
+            <label>城市 / 位置</label>
+            <input id="f-city" placeholder="如：深圳" />
+          </div>
+          <div>
+            <label>联系人</label>
+            <input id="f-contact" placeholder="如：陈老师 / 张经理" />
+          </div>
+          <div>
+            <label>电话 / 微信 / 邮箱</label>
+            <input id="f-contactway" placeholder="必填——不然找不到人" />
+          </div>
+          <div>
+            <label>补贴 / 价格（元/天 或 元）</label>
+            <input id="f-price" placeholder="如：150 或 85000" />
+          </div>
+          <div>
+            <label>照片 / 图片网址（选填）</label>
+            <input id="f-photo" placeholder="粘贴图片链接，或上传到图床后的地址" />
+          </div>
+          <div class="full">
+            <label>详情说明</label>
+            <textarea id="f-note" rows="2" placeholder="如：8 成新海天注塑机，配机械手接口……"></textarea>
+          </div>
+          <div class="full">
+            <button class="btn-match" type="button" id="admin-save"> 保存到数据库</button>
+            <span class="admin-hint" id="admin-save-hint"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 总览 -->
+      <section class="admin-card">
+        <h2> 后台数据总览</h2>
+        <p class="admin-hint">数据来源：服务器数据库（data/records.json）+ 本机浏览器登记池。部署到服务器后数据共享给所有人。</p>
+        <div id="admin-stats"></div>
+        <table class="admin-table" id="admin-table">
+          <thead>
+            <tr><th>类型</th><th>组织 / 名称</th><th>方向</th><th>城市</th><th>联系人</th><th>联系方式</th><th>价格</th><th>时间</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- 用户管理 -->
+      <section class="admin-card">
+        <h2> 用户管理（删除注册用户）</h2>
+        <p class="admin-hint">删除某用户会同时清除他的登录态和个人资料（本机 + 服务器）。</p>
+        <table class="admin-table" id="user-table">
+          <thead>
+            <tr><th>账号</th><th>类型</th><th>单位</th><th>部门</th><th>联系人</th><th>联系方式</th><th>操作</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <div class="foot-polyu"><div class="brick-strip"></div>The Hong Kong Polytechnic University · MM3162 Innovation &amp; Entrepreneurship Seminar</div>
+
+  <script>
+    var ADMIN_KEY = "circulink2026"; // 改口令就改这里
+    var LS_KEY = "circu-admin-records";
+
+    function lsGet() {
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); } catch (e) { return []; }
+    }
+    function lsPush(r) {
+      var list = lsGet(); list.push(r);
+      try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    function typeBadge(t) {
+      var map = { demand: ["需求", "demand"], equipment: ["设备", "equipment"], mentor: ["技师", "mentor"] };
+      var m = map[t] || [t, "demand"];
+      return '<span class="badge ' + m[1] + '">' + m[0] + "</span>";
+    }
+
+    function renderTable(records) {
+      var tbody = document.querySelector("#admin-table tbody");
+      tbody.innerHTML = records.map(function (r) {
+        return "<tr><td>" + typeBadge(r.type) + "</td><td>" + (r.org || r.name || "—") + "</td><td>" + (r.field || "—") + "</td><td>" + (r.city || "—") + "</td><td>" + (r.contact || "—") + "</td><td>" + (r.contactway || "—") + "</td><td>" + (r.price || "—") + "</td><td>" + (r.time || "—") + "</td></tr>";
+      }).join("") || '<tr><td colspan="8" style="text-align:center;color:var(--muted);">暂无数据，先在上方录入吧</td></tr>';
+
+      var n = records.length;
+      var nd = records.filter(function (r) { return r.type === "demand"; }).length;
+      var ne = records.filter(function (r) { return r.type === "equipment"; }).length;
+      var nm = records.filter(function (r) { return r.type === "mentor"; }).length;
+      document.getElementById("admin-stats").innerHTML =
+        '<div class="summary" style="margin-bottom:14px;">' +
+          '<div class="summary-item"><span class="summary-num">' + n + '</span><span class="summary-label">总记录</span></div>' +
+          '<div class="summary-item"><span class="summary-num">' + nd + '</span><span class="summary-label">需求登记</span></div>' +
+          '<div class="summary-item"><span class="summary-num">' + ne + '</span><span class="summary-label">退役设备</span></div>' +
+          '<div class="summary-item"><span class="summary-num">' + nm + '</span><span class="summary-label">技师导师</span></div>' +
+        "</div>";
+    }
+
+    function loadAll() {
+      var local = lsGet();
+      fetch("/api/data").then(function (r) { return r.json(); }).then(function (db) {
+        var merged = (db && db.records ? db.records : []).concat(local);
+        renderTable(merged);
+      }).catch(function () { renderTable(local); });
+    }
+
+    document.getElementById("admin-unlock").addEventListener("click", function () {
+      if (document.getElementById("admin-pass").value === ADMIN_KEY) {
+        document.getElementById("admin-lock").style.display = "none";
+        document.getElementById("admin-main").classList.remove("admin-hidden");
+        loadAll();
+        renderUsers();
+      } else {
+        alert("口令不对");
+      }
+    });
+
+    document.getElementById("admin-save").addEventListener("click", function () {
+      var record = {
+        type: document.getElementById("f-type").value,
+        org: document.getElementById("f-org").value.trim(),
+        name: document.getElementById("f-org").value.trim(),
+        field: document.getElementById("f-field").value.trim(),
+        city: document.getElementById("f-city").value.trim(),
+        contact: document.getElementById("f-contact").value.trim(),
+        contactway: document.getElementById("f-contactway").value.trim(),
+        price: document.getElementById("f-price").value.trim(),
+        photo: document.getElementById("f-photo").value.trim(),
+        note: document.getElementById("f-note").value.trim(),
+        time: new Date().toLocaleString()
+      };
+      if (!record.org && !record.field) { alert("至少填一个名称/方向"); return; }
+      lsPush(record);
+      fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(record)
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        document.getElementById("admin-save-hint").textContent =
+          res && res.ok ? " 已保存到服务器数据库" : " 已保存到本机（部署服务器后可共享）";
+        loadAll();
+        ["f-org", "f-field", "f-city", "f-contact", "f-contactway", "f-price", "f-photo", "f-note"].forEach(function (id) {
+          document.getElementById(id).value = "";
+        });
+      }).catch(function () {
+        document.getElementById("admin-save-hint").textContent = " 已保存到本机（本地预览模式）";
+        loadAll();
+      });
+    });
+
+    /* ===== 用户管理 ===== */
+    function localUsers() {
+      try { return JSON.parse(localStorage.getItem("circu-users") || "[]"); } catch (e) { return []; }
+    }
+    function renderUserTable(users) {
+      var tbody = document.querySelector("#user-table tbody");
+      tbody.innerHTML = users.map(function (u) {
+        return "<tr><td>" + (u.account || "—") + "</td><td>" + (u.type || "—") + "</td><td>" + (u.org || "—") +
+          "</td><td>" + (u.dept || "—") + "</td><td>" + (u.contact || "—") + "</td><td>" + (u.contactway || "—") +
+          '</td><td><button class="btn-mini reject" data-account="' + u.account + '">删除</button></td></tr>';
+      }).join("") || '<tr><td colspan="7" style="text-align:center;color:var(--muted);">暂无注册用户</td></tr>';
+      tbody.querySelectorAll(".btn-mini.reject").forEach(function (b) {
+        b.addEventListener("click", function () { deleteUser(b.getAttribute("data-account")); });
+      });
+    }
+    function renderUsers() {
+      var local = localUsers();
+      fetch("/api/users").then(function (r) { return r.json(); }).then(function (db) {
+        var remote = (db && db.users) || [];
+        var map = {};
+        local.concat(remote).forEach(function (u) { if (u && u.account) map[u.account] = u; });
+        renderUserTable(Object.keys(map).map(function (k) { return map[k]; }));
+      }).catch(function () {
+        renderUserTable(local);
+      });
+    }
+    function deleteUser(account) {
+      if (!account) return;
+      if (!confirm("确定删除用户「" + account + "」及其全部资料吗？")) return;
+      // 本机
+      var list = localUsers().filter(function (u) { return u.account !== account; });
+      try { localStorage.setItem("circu-users", JSON.stringify(list)); } catch (e) {}
+      try { localStorage.removeItem("circu-profile-" + account); } catch (e) {}
+      try {
+        var auth = JSON.parse(localStorage.getItem("circu-auth") || "null");
+        if (auth && auth.user && auth.user.account === account) {
+          localStorage.removeItem("circu-auth");
+          localStorage.setItem("circu-auth", "null");
+        }
+      } catch (e) {}
+      // 服务器
+      fetch("/api/users/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account: account })
+      }).catch(function () {});
+      renderUsers();
+      alert("已删除用户：" + account);
+    }
+  </script>
+</body>
+</html>

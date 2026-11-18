@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-title="profile.title">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人中心 · CircuLink</title>
+  <link rel="stylesheet" href="style.css?v=20261111" />
+</head>
+<body class="page" data-page="profile">
+  <header class="topbar">
+    <a class="back-btn" href="index.html" data-i18n="nav.back">← 返回首页</a>
+    <h1 data-i18n="profile.title">个人中心</h1>
+    <button class="lang-btn" type="button" aria-label="切换语言 / Switch language">
+      <span class="lang-icon"></span><span class="lang-label">EN</span>
+    </button>
+  </header>
+
+  <div class="profile-layout">
+    <!-- 左侧功能条 -->
+    <aside class="profile-side">
+      <div class="profile-user">
+        <img class="profile-avatar" id="side-avatar" src="" alt="" />
+        <div class="profile-user-name" id="side-name">—</div>
+        <div class="profile-user-org" id="side-org">—</div>
+      </div>
+      <nav class="profile-nav">
+        <p class="side-nav-title">FUNCTION MENU</p>
+        <button class="side-item active" type="button" data-tab="info"> <span data-i18n="profile.nav.info">个人信息</span></button>
+        <button class="side-item" type="button" data-tab="post"> <span data-i18n="profile.nav.post">发布需求</span></button>
+        <button class="side-item" type="button" data-tab="chat"> <span data-i18n="profile.nav.chat">沟通交流</span> <span class="side-badge" id="chat-badge" style="display:none;"></span></button>
+        <button class="side-item" type="button" data-tab="security"> <span data-i18n="profile.nav.security">账户安全</span></button>
+      </nav>
+    </aside>
+
+    <!-- 右侧内容 -->
+    <main class="profile-main">
+      <div class="auth-msg" id="profile-msg"></div>
+
+      <!-- 顶部概览卡 -->
+      <div class="overview-card">
+        <img class="overview-avatar" id="ov-avatar" src="" alt="" />
+        <div class="overview-text">
+          <p class="overview-hello" data-i18n="profile.title">个人中心</p>
+          <p class="overview-name" id="ov-name">—</p>
+          <p class="overview-org" id="ov-org">—</p>
+          <div class="overview-tags">
+            <span class="overview-tag type" id="ov-type">—</span>
+            <span class="overview-tag dept" id="ov-dept">—</span>
+          </div>
+        </div>
+        <div class="overview-stats">
+          <div class="ov-stat"><span class="ov-stat-num" id="ov-posts">0</span><span class="ov-stat-label" data-i18n="profile.post.mine">我发布的帖子</span></div>
+          <div class="ov-stat"><span class="ov-stat-num" id="ov-inbox">0</span><span class="ov-stat-label" data-i18n="profile.chat.inbox">收到的申请</span></div>
+          <div class="ov-stat"><span class="ov-stat-num" id="ov-pending">0</span><span class="ov-stat-label" data-i18n="profile.chat.pending">待处理</span></div>
+          <div class="ov-stat"><span class="ov-stat-num" id="ov-accepted">0</span><span class="ov-stat-label" data-i18n="profile.chat.accepted">已同意</span></div>
+        </div>
+      </div>
+
+      <!-- ① 个人信息 -->
+      <section class="profile-panel" id="tab-info">
+        <h2 class="panel-title"> <span data-i18n="profile.nav.info">个人信息</span></h2>
+        <div class="profile-card">
+          <div class="avatar-row">
+            <img class="avatar-preview" id="avatar-preview" src="" alt="" />
+            <div class="avatar-ops">
+              <label data-i18n="profile.info.avatar">头像</label>
+              <input type="text" id="p-avatar-url" data-i18n-placeholder="profile.info.avatar.url" placeholder="粘贴图片网址" />
+              <input type="file" id="p-avatar-file" accept="image/*" />
+            </div>
+          </div>
+          <div class="match-form profile-form">
+            <div class="match-field">
+              <label data-i18n="profile.info.name">昵称 / 名字</label>
+              <input type="text" id="p-name" placeholder="例：陈老师" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.org">单位名称</label>
+              <input type="text" id="p-org" placeholder="例：深圳职业技术大学" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.dept">部门</label>
+              <input type="text" id="p-dept" placeholder="例：机电工程系" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.position">城市 / 位置</label>
+              <input type="text" id="p-city" placeholder="例：深圳" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.phone">电话</label>
+              <input type="text" id="p-phone" placeholder="138xxxx" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.wechat">微信</label>
+              <input type="text" id="p-wechat" placeholder="wx:xxxx" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.info.email">邮箱</label>
+              <input type="text" id="p-email" placeholder="xx@edu.cn" />
+            </div>
+          </div>
+          <button class="btn-match" type="button" id="save-info" data-i18n="profile.info.save">保存资料</button>
+        </div>
+      </section>
+
+      <!-- ② 发布需求 -->
+      <section class="profile-panel" id="tab-post" style="display:none;">
+        <h2 class="panel-title"> <span data-i18n="profile.nav.post">发布需求</span></h2>
+        <p class="panel-sub" data-i18n="profile.post.desc">找不到合适的机会？发一条自己的需求，让别人来找你</p>
+        <div class="profile-card">
+          <div class="match-field">
+            <label data-i18n="profile.post.content">需求内容</label>
+            <textarea id="post-content" rows="4" placeholder="例：我们需要合作企业提供数控机床实训岗位，面向大二学生，期望补贴 150 元/天以上"></textarea>
+          </div>
+          <button class="btn-match" type="button" id="publish-post" data-i18n="profile.post.publish">发布帖子</button>
+        </div>
+        <h3 class="panel-title small"><span data-i18n="profile.post.mine">我发布的帖子</span></h3>
+        <div id="post-list"></div>
+      </section>
+
+      <!-- ③ 沟通交流 -->
+      <section class="profile-panel" id="tab-chat" style="display:none;">
+        <h2 class="panel-title"> <span data-i18n="profile.nav.chat">沟通交流</span></h2>
+        <p class="panel-sub" data-i18n="profile.chat.desc">向感兴趣的单位发起沟通申请；对方同意后即可继续联系</p>
+        <div class="profile-card">
+          <h3 class="panel-title small"><span data-i18n="profile.chat.send">发起沟通申请</span></h3>
+          <div class="match-form profile-form">
+            <div class="match-field">
+              <label data-i18n="profile.chat.to">对方单位名称</label>
+              <input type="text" id="req-to" placeholder="例：德昌电机控股 / 深圳职业技术大学" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.chat.msg">留言</label>
+              <input type="text" id="req-msg" placeholder="例：希望就实习生合作沟通一下" />
+            </div>
+          </div>
+          <button class="btn-match" type="button" id="send-req" data-i18n="profile.chat.apply">发送申请</button>
+        </div>
+        <h3 class="panel-title small"><span data-i18n="profile.chat.inbox">收到的申请</span> <span class="side-badge" id="inbox-badge" style="display:none;"></span></h3>
+        <div id="inbox-list"></div>
+        <h3 class="panel-title small"><span data-i18n="profile.chat.outbox">我发出的申请</span></h3>
+        <div id="outbox-list"></div>
+      </section>
+
+      <!-- ④ 账户安全 -->
+      <section class="profile-panel" id="tab-security" style="display:none;">
+        <h2 class="panel-title"> <span data-i18n="profile.nav.security">账户安全</span></h2>
+        <p class="panel-sub" data-i18n="profile.sec.desc">修改绑定的电话 / 邮箱，或退出登录</p>
+        <div class="profile-card">
+          <div class="sec-row"><span class="sec-label" data-i18n="profile.sec.account">当前账号</span><span class="sec-value" id="sec-account">—</span></div>
+          <div class="match-form profile-form">
+            <div class="match-field">
+              <label data-i18n="profile.sec.phone">绑定电话</label>
+              <input type="text" id="sec-phone" placeholder="138xxxx" />
+            </div>
+            <div class="match-field">
+              <label data-i18n="profile.sec.email">绑定邮箱</label>
+              <input type="text" id="sec-email" placeholder="xx@edu.cn" />
+            </div>
+          </div>
+          <button class="btn-match" type="button" id="save-sec" data-i18n="profile.sec.save">更新绑定</button>
+        </div>
+        <div class="profile-card danger-card">
+          <button class="btn-reset danger-btn" type="button" id="logout-btn" data-i18n="profile.sec.logout">退出登录</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="foot" data-i18n="foot.text">循环接力 CircuLink · 课堂演示项目</footer>
+  <div class="foot-polyu"><div class="brick-strip"></div>The Hong Kong Polytechnic University · MM3162 Innovation &amp; Entrepreneurship Seminar</div>
+
+  <script src="js/i18n.js?v=20261111"></script>
+  <script src="js/auth.js?v=20261111"></script>
+  <script>
+    (function () {
+      function t(k) { return window.t ? window.t(k) : k; }
+      var msgEl = document.getElementById("profile-msg");
+      function showMsg(m, err) {
+        msgEl.textContent = m;
+        msgEl.className = "auth-msg" + (err ? " err" : "");
+      }
+      var user = window.getAuthUser ? window.getAuthUser() : null;
+      if (!user) {
+        showMsg(t("profile.not.login") + " — " + t("profile.go.login"), true);
+        var back = document.createElement("p");
+        back.innerHTML = '<a href="login.html" style="color:var(--brick);font-weight:700;">' + t("profile.go.login") + " →</a>";
+        back.style.textAlign = "center";
+        document.querySelector(".profile-main").appendChild(back);
+      }
+
+      var acct = user ? user.account : "guest";
+      var PROFILE_KEY = "circu-profile-" + acct;
+      var POSTS_KEY = "circu-posts";
+      var REQ_KEY = "circu-requests";
+
+      function getProfile() {
+        var def = { name: user ? (user.contact || "") : "", org: user ? (user.org || "") : "", dept: user ? (user.dept || "") : "", city: "", phone: user ? (user.contactway || "") : "", wechat: "", email: acct.indexOf("@") > 0 ? acct : "", avatar: "" };
+        try {
+          var saved = JSON.parse(localStorage.getItem(PROFILE_KEY) || "null");
+          if (saved) { for (var k in saved) def[k] = saved[k]; }
+        } catch (e) {}
+        return def;
+      }
+      function setProfile(p) {
+        try { localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); } catch (e) {}
+      }
+      function getPosts() {
+        try { return JSON.parse(localStorage.getItem(POSTS_KEY) || "[]"); } catch (e) { return []; }
+      }
+      function getReqs() {
+        try { return JSON.parse(localStorage.getItem(REQ_KEY) || "[]"); } catch (e) { return []; }
+      }
+      function setReqs(list) {
+        try { localStorage.setItem(REQ_KEY, JSON.stringify(list)); } catch (e) {}
+      }
+
+      /* 侧边用户卡 */
+      function renderSide() {
+        var p = getProfile();
+        document.getElementById("side-name").textContent = p.name || (user ? user.account : "—");
+        document.getElementById("side-org").textContent = (p.org || "") + (p.dept ? " · " + p.dept : "");
+        var av = document.getElementById("side-avatar");
+        if (p.avatar) { av.src = p.avatar; av.style.display = "block"; } else { av.style.display = "none"; }
+        var prev = document.getElementById("avatar-preview");
+        if (p.avatar) { prev.src = p.avatar; } else { prev.style.display = "none"; }
+      }
+
+      /* 顶部概览卡 */
+      function renderOverview() {
+        var p = getProfile();
+        var ov = document.getElementById("ov-avatar");
+        if (p.avatar) { ov.src = p.avatar; ov.style.display = "block"; } else { ov.style.display = "none"; }
+        document.getElementById("ov-name").textContent = p.name || (user ? user.account : "—");
+        document.getElementById("ov-org").textContent = p.org || "—";
+        var typeLabel = { school: "学校", company: "企业", hk: "香港院校" }[user ? user.type : ""] || "—";
+        document.getElementById("ov-type").textContent = typeLabel;
+        document.getElementById("ov-dept").textContent = p.dept || (p.city || "");
+        var posts = getPosts().filter(function (x) { return x.account === acct; }).length;
+        var all = getReqs();
+        var inbox = all.filter(function (r) { return r.to === acct; });
+        document.getElementById("ov-posts").textContent = posts;
+        document.getElementById("ov-inbox").textContent = inbox.length;
+        document.getElementById("ov-pending").textContent = inbox.filter(function (r) { return r.status === "pending"; }).length;
+        document.getElementById("ov-accepted").textContent = inbox.filter(function (r) { return r.status === "accepted"; }).length;
+      }
+
+      /* tab 切换 */
+      document.querySelectorAll(".side-item").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".side-item").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          document.querySelectorAll(".profile-panel").forEach(function (p) { p.style.display = "none"; });
+          var panel = document.getElementById("tab-" + btn.getAttribute("data-tab"));
+          if (panel) panel.style.display = "block";
+        });
+      });
+
+      /* ① 个人信息 */
+      var p = getProfile();
+      function fillInfo() {
+        document.getElementById("p-name").value = p.name || "";
+        document.getElementById("p-org").value = p.org || "";
+        document.getElementById("p-dept").value = p.dept || "";
+        document.getElementById("p-city").value = p.city || "";
+        document.getElementById("p-phone").value = p.phone || "";
+        document.getElementById("p-wechat").value = p.wechat || "";
+        document.getElementById("p-email").value = p.email || "";
+        document.getElementById("p-avatar-url").value = p.avatar || "";
+      }
+      fillInfo();
+      renderSide();
+      renderOverview();
+
+      document.getElementById("p-avatar-file").addEventListener("change", function (e) {
+        var f = e.target.files[0];
+        if (!f) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          p.avatar = reader.result;
+          renderSide();
+        };
+        reader.readAsDataURL(f);
+      });
+
+      document.getElementById("save-info").addEventListener("click", function () {
+        p.name = document.getElementById("p-name").value.trim();
+        p.org = document.getElementById("p-org").value.trim();
+        p.dept = document.getElementById("p-dept").value.trim();
+        p.city = document.getElementById("p-city").value.trim();
+        p.phone = document.getElementById("p-phone").value.trim();
+        p.wechat = document.getElementById("p-wechat").value.trim();
+        p.email = document.getElementById("p-email").value.trim();
+        p.avatar = document.getElementById("p-avatar-url").value.trim() || p.avatar;
+        setProfile(p);
+        renderSide();
+        renderOverview();
+        showMsg(t("profile.info.saved"), false);
+      });
+
+      /* ② 发布需求 */
+      function renderPosts() {
+        var list = getPosts().filter(function (x) { return x.account === acct; });
+        var box = document.getElementById("post-list");
+        if (!list.length) {
+          box.innerHTML = '<p class="empty-hint">' + t("profile.post.empty") + "</p>";
+          return;
+        }
+        box.innerHTML = list.map(function (x) {
+          return '<div class="list-card"><div class="list-card-head"><strong>' + (x.name || x.org || "—") + "</strong><span>" + (x.time || "") + "</span></div><p>" + x.content + "</p></div>";
+        }).join("");
+      }
+      renderPosts();
+
+      document.getElementById("publish-post").addEventListener("click", function () {
+        if (!user) { showMsg(t("profile.post.need.login"), true); return; }
+        var content = document.getElementById("post-content").value.trim();
+        if (!content) { showMsg(t("profile.post.content") + " ", true); return; }
+        var posts = getPosts();
+        posts.push({ account: acct, name: p.name, org: p.org, dept: p.dept, content: content, time: new Date().toLocaleString() });
+        try { localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); } catch (e) {}
+        document.getElementById("post-content").value = "";
+        renderPosts();
+        renderOverview();
+        showMsg(t("profile.post.published"), false);
+      });
+
+      /* ③ 沟通交流 */
+      function statusLabel(s) {
+        if (s === "accepted") return '<span class="req-accepted">' + t("profile.chat.accepted") + "</span>";
+        if (s === "rejected") return '<span class="req-rejected">' + t("profile.chat.rejected") + "</span>";
+        return '<span class="req-pending">' + t("profile.chat.pending") + "</span>";
+      }
+      function renderReqs() {
+        var all = getReqs();
+        var inbox = all.filter(function (r) { return r.to === acct; });
+        var outbox = all.filter(function (r) { return r.from === acct; });
+
+        var ib = document.getElementById("inbox-list");
+        ib.innerHTML = inbox.length
+          ? inbox.map(function (r) {
+              var btns = r.status === "pending"
+                ? '<span class="req-actions"><button class="btn-mini accept" data-id="' + r.id + '"> ' + t("profile.chat.accept") + '</button><button class="btn-mini reject" data-id="' + r.id + '"> ' + t("profile.chat.reject") + "</button></span>"
+                : "";
+              return '<div class="req-card"><div class="req-head"><strong>' + r.fromName + "</strong>" + statusLabel(r.status) + btns + "</div><p>" + (r.msg || "") + "</p><span class='req-time'>" + r.time + "</span></div>";
+            }).join("")
+          : '<p class="empty-hint">' + t("profile.chat.empty") + "</p>";
+
+        var ob = document.getElementById("outbox-list");
+        ob.innerHTML = outbox.length
+          ? outbox.map(function (r) {
+              return '<div class="req-card"><div class="req-head"><strong>' + r.to + "</strong>" + statusLabel(r.status) + "</div><p>" + (r.msg || "") + "</p><span class='req-time'>" + r.time + "</span></div>";
+            }).join("")
+          : '<p class="empty-hint">' + t("profile.chat.empty") + "</p>";
+
+        ib.querySelectorAll(".btn-mini.accept").forEach(function (b) { b.addEventListener("click", function () { decide(b.getAttribute("data-id"), "accepted"); }); });
+        ib.querySelectorAll(".btn-mini.reject").forEach(function (b) { b.addEventListener("click", function () { decide(b.getAttribute("data-id"), "rejected"); }); });
+
+        var pend = inbox.filter(function (r) { return r.status === "pending"; }).length;
+        var badge = document.getElementById("inbox-badge");
+        var sideBadge = document.getElementById("chat-badge");
+        if (pend > 0) {
+          badge.textContent = pend; badge.style.display = "inline-block";
+          sideBadge.textContent = pend; sideBadge.style.display = "inline-block";
+        } else {
+          badge.style.display = "none"; sideBadge.style.display = "none";
+        }
+      }
+      function decide(id, status) {
+        var all = getReqs();
+        all.forEach(function (r) { if (String(r.id) === id) r.status = status; });
+        setReqs(all);
+        renderReqs();
+        renderOverview();
+      }
+      renderReqs();
+
+      document.getElementById("send-req").addEventListener("click", function () {
+        if (!user) { showMsg(t("profile.not.login"), true); return; }
+        var to = document.getElementById("req-to").value.trim();
+        var msg = document.getElementById("req-msg").value.trim();
+        if (!to) { showMsg(t("profile.chat.to") + " ", true); return; }
+        var all = getReqs();
+        all.push({ id: Date.now(), from: acct, fromName: (p.name || acct) + (p.org ? "（" + p.org + "）" : ""), to: to, msg: msg, status: "pending", time: new Date().toLocaleString() });
+        setReqs(all);
+        document.getElementById("req-to").value = "";
+        document.getElementById("req-msg").value = "";
+        renderReqs();
+        showMsg(t("profile.chat.sent"), false);
+      });
+
+      /* ④ 账户安全 */
+      document.getElementById("sec-account").textContent = acct;
+      document.getElementById("sec-phone").value = p.phone || "";
+      document.getElementById("sec-email").value = p.email || "";
+
+      document.getElementById("save-sec").addEventListener("click", function () {
+        p.phone = document.getElementById("sec-phone").value.trim();
+        p.email = document.getElementById("sec-email").value.trim();
+        setProfile(p);
+        showMsg(t("profile.sec.saved"), false);
+      });
+
+      document.getElementById("logout-btn").addEventListener("click", function () {
+        if (window.logoutAuth) window.logoutAuth();
+        try { localStorage.removeItem("circu-auth"); } catch (e) {}
+        try { localStorage.setItem("circu-auth", "null"); } catch (e) {}
+        location.replace("index.html");
+      });
+
+      /* 切换语言时重渲染动态列表 */
+      window.addEventListener("circu-lang-changed", function () {
+        renderSide(); renderOverview(); renderPosts(); renderReqs();
+      });
+    })();
+  </script>
+</body>
+</html>
