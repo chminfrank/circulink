@@ -23,7 +23,7 @@
     return (
       '<div class="card-img">' +
         '<img src="' + im.url + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" />' +
-        '<span class="img-caption">' + (im.cap || "") + "</span>" +
+        '<span class="img-caption">' + (im.cap ? (window.L ? window.L(im.cap) : (im.cap.zh || im.cap)) : "") + "</span>" +
       "</div>"
     );
   }

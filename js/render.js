@@ -25,7 +25,7 @@
     return (
       '<div class="card-img">' +
         '<img src="' + im.url + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" />' +
-        '<span class="img-caption">' + (im.cap || "") + "</span>" +
+        '<span class="img-caption">' + (im.cap ? L(im.cap) : "") + "</span>" +
       "</div>"
     );
   }
@@ -384,7 +384,7 @@
               newPrice: "—", price: r.price ? ("¥" + r.price) : "面议",
               mentorId: null, fits: [], desc: { zh: r.note || "", en: r.note || "" }
             });
-            if (r.photo) IMAGES.equipment[id] = { url: r.photo, cap: zh };
+            if (r.photo) IMAGES.equipment[id] = { url: r.photo, cap: { zh: zh, en: zh } };
           }
           if (r.type === "mentor") {
             var id2 = "r" + r.id;
@@ -395,7 +395,7 @@
               years: 0, origin: { zh: r.org || "", en: r.org || "" },
               courses: [], intro: { zh: r.note || "", en: r.note || "" }
             });
-            if (r.photo) IMAGES.mentors[id2] = { url: r.photo, cap: zh };
+            if (r.photo) IMAGES.mentors[id2] = { url: r.photo, cap: { zh: zh, en: zh } };
           }
         });
         cb();
