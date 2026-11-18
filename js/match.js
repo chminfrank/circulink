@@ -151,8 +151,20 @@
     "工业设计": "Industrial Design", "电子信息": "Electronic Info", "机器人": "Robotics",
     "建造": "Construction",
     "深圳": "Shenzhen", "广州": "Guangzhou", "佛山": "Foshan", "香港": "Hong Kong",
-    "江门": "Jiangmen", "东莞": "Dongguan"
-  };
+    "江门": "Jiangmen", "东莞": "Dongguan",
+    "中山": "Zhongshan", "惠州": "Huizhou", "珠海": "Zhuhai",
+    "注塑": "Injection moulding", "电路板": "PCB", "五金": "Hardware", "钣金": "Sheet metal",
+    "电镀": "Plating", "表处": "Surface treatment", "线束": "Wiring harness",
+    "小家电": "Small appliances", "智能家电": "Smart appliances", "食品机械": "Food machinery",
+    "光电": "Optoelectronics", "包装": "Packaging", "装配": "Assembly", "集成": "Integration",
+    "测试": "Testing", "视觉": "Machine vision", "机械手": "Robotic arm", "焊接": "Welding",
+    "工业机器人": "Industrial robotics", "机电一体化": "Mechatronics", "电子技术": "Electronics tech",
+    "电子信息工程": "Electronic information", "电气": "Electrical", "染整": "Dyeing & finishing",
+    "珠宝首饰": "Jewellery", "数码设计": "Digital design", "机场运行": "Airport operations",
+    "航空机电": "Aviation mechatronics", "轨道交通": "Rail transit", "机电工程": "Mechatronic engineering",
+    "SMT": "SMT", "模具": "Moulding"
+};
+
   function D(x) { return window.getLang && window.getLang() === "en" ? (DYN[x] || x) : x; }
 
   /* ---------- 匹配主流程 ---------- */
@@ -277,6 +289,8 @@
   };
   function lab(v) {
     if (!(window.getLang && window.getLang() === "en")) return v;
+    var g = { "大一": "match.g1", "大二": "match.g2", "大三": "match.g3", "大四": "match.g4" }[v];
+    if (g && window.getLang && window.getLang() === "en") return t(g);
     return DYN[v] || LEVEL_EN[v] || v;
   }
 
