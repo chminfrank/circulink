@@ -674,7 +674,7 @@
       "sum.avgYears": "Avg. Experience",
 
       "unit.people": "",
-      "unit.years": "yrs",
+      "unit.years": " yrs",
       "card.interns.label": "Interns Available This Year",
       "card.directions.title": "Training Tracks",
       "card.more": "View Details",

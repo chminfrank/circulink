@@ -780,3 +780,6 @@ p { margin: 0; }
   .adv-row { flex-direction: column; gap: 6px; }
   .adv-label { flex: none; padding-top: 0; }
 }
+/* EN mode: the two-character Chinese trade badge has no English form */
+.sum-unit { margin-left: 3px; }
+html[lang="en"] .avatar { display: none; }

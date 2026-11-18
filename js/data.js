@@ -585,7 +585,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：东莞立意精密模具（中型 · 480 人）", en: "Origin: Liyi Precision Mould, Dongguan (mid-sized, 480 staff)" },
     condition: { zh: "成色 7.5 成新 · 账面净值已为零", en: "75% condition · zero net book value" },
     newPrice: "¥320,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 1,
     fits: [{ zh: "模具设计与制造", en: "Mould Design & Manufacturing" }, { zh: "智能制造装备技术", en: "Smart Manufacturing Equipment" }, { zh: "高分子材料", en: "Polymer Materials" }],
     desc: { zh: "锁模力 1600kN 伺服机型，含机械手接口与模温机，三台整套适合建一个注塑实训台位。", en: "1,600 kN servo machines with robot interface and temperature controllers; a set of three outfits one moulding training station." }
@@ -597,8 +597,8 @@ const EQUIPMENT = [
     category: { zh: "服装缝制 · 2015 年产", en: "Garment sewing · built 2015" },
     origin: { zh: "来源：江门新恒纺织（中型 · 780 人）", en: "Origin: Xinheng Textile, Jiangmen (mid-sized, 780 staff)" },
     condition: { zh: "成色 8 成新 · 已统一保养", en: "80% condition · serviced in batch" },
-    newPrice: "¥400,000（套）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥400,000（套）", en: "¥400,000 (set)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 2,
     fits: [{ zh: "服装设计与工艺", en: "Garment Design & Technology" }, { zh: "服装智能制造", en: "Smart Apparel Manufacturing" }],
     desc: { zh: "直驱节能机型，带自动切线，20 台整套可直接布置一间服装工艺实训室。", en: "Direct-drive energy-saving models with auto trimming; a set of 20 outfits a garment lab directly." }
@@ -611,7 +611,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：广州睿达机器人集成（中型 · 320 人）", en: "Origin: Ruida Robotics, Guangzhou (mid-sized, 320 staff)" },
     condition: { zh: "成色 8.5 成新 · 含变位机、焊机与围栏", en: "85% condition · positioner, welder and fencing" },
     newPrice: "¥300,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 3,
     fits: [{ zh: "工业机器人技术", en: "Industrial Robotics" }, { zh: "焊接技术与自动化", en: "Welding & Automation" }],
     desc: { zh: "六轴焊接机器人整站，含变位机、焊机与安全围栏，可直接用于机器人编程与焊接工艺实训。", en: "A complete six-axis welding cell with positioner, welder and safety fencing, ready for robot programming and welding practice." }
@@ -623,8 +623,8 @@ const EQUIPMENT = [
     category: { zh: "数控加工 · 2013 年产", en: "CNC turning · built 2013" },
     origin: { zh: "来源：佛山盛达金属制品（中型 · 340 人）", en: "Origin: Shengda Metal, Foshan (mid-sized, 340 staff)" },
     condition: { zh: "成色 7 成新 · 精度满足教学", en: "70% condition · tolerance adequate for teaching" },
-    newPrice: "¥120,000（单台）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥120,000（单台）", en: "¥120,000 (each)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 4,
     fits: [{ zh: "数控技术", en: "CNC Technology" }, { zh: "机械制造及自动化", en: "Mechanical Manufacturing & Automation" }],
     desc: { zh: "经济型数控车床两台，系统为广数，维修资料齐全，适合做基础车削与编程训练。", en: "Two economical CNC lathes on GSK controls with full repair documentation, suited to basic turning and programming." }
@@ -637,7 +637,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：深圳恒铖电子（中型 · 760 人）", en: "Origin: Hengcheng Electronics, Shenzhen (mid-sized, 760 staff)" },
     condition: { zh: "成色 7.5 成新 · 含印刷机与回流炉", en: "75% condition · printer and reflow oven included" },
     newPrice: "¥450,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 5,
     fits: [{ zh: "电子信息工程技术", en: "Electronic Information Engineering" }, { zh: "应用电子技术", en: "Applied Electronics" }],
     desc: { zh: "含锡膏印刷机与六温区回流炉的半自动 SMT 线，节拍适合教学，可完成完整贴装流程。", en: "A semi-automatic SMT line with paste printer and six-zone reflow oven; its cycle time suits teaching a complete mounting process." }
@@ -650,7 +650,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：珠海天成食品机械（中型 · 310 人）", en: "Origin: Tiancheng Food Machinery, Zhuhai (mid-sized, 310 staff)" },
     condition: { zh: "成色 8 成新 · 含储气罐与冷干机", en: "80% condition · receiver and dryer included" },
     newPrice: "¥90,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 6,
     fits: [{ zh: "机电一体化技术", en: "Mechatronics" }, { zh: "设备维修与管理", en: "Equipment Maintenance & Management" }],
     desc: { zh: "螺杆空压机整套动力系统，可作为院校实训车间气源，同时用于设备点检与维护教学。", en: "A complete screw-compressor system usable as shop air and as a teaching asset for inspection and maintenance." }
@@ -662,8 +662,8 @@ const EQUIPMENT = [
     category: { zh: "增材制造 · 2018 年产", en: "Additive manufacturing · built 2018" },
     origin: { zh: "来源：东莞锐驰自动化（中型 · 320 人）", en: "Origin: Ruichi Automation, Dongguan (mid-sized, 320 staff)" },
     condition: { zh: "成色 8 成新 · 含后处理工作台", en: "80% condition · post-processing bench included" },
-    newPrice: "¥180,000（套）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥180,000（套）", en: "¥180,000 (set)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 7,
     fits: [{ zh: "增材制造技术", en: "Additive Manufacturing" }, { zh: "工业设计", en: "Industrial Design" }],
     desc: { zh: "六台 FDM 工业机型整套转让，含后处理工作台与耗材，可支撑一个增材制造实训单元。", en: "Six industrial FDM machines transferred as a set with a post-processing bench and consumables, enough for one additive-manufacturing unit." }
@@ -675,8 +675,8 @@ const EQUIPMENT = [
     category: { zh: "工业机器人 · 2018 年产", en: "Industrial robots · built 2018" },
     origin: { zh: "来源：东莞锐驰自动化（中型 · 320 人）", en: "Origin: Ruichi Automation, Dongguan (mid-sized, 320 staff)" },
     condition: { zh: "成色 9 成新 · 工装完整", en: "90% condition · complete fixtures" },
-    newPrice: "¥200,000（套）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥200,000（套）", en: "¥200,000 (set)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 8,
     fits: [{ zh: "工业机器人技术", en: "Industrial Robotics" }, { zh: "自动化生产线安装与调试", en: "Automated Line Installation" }],
     desc: { zh: "四台六轴机器人配上下料工装，可组成一条小型自动化产线，用于编程与联调教学。", en: "Four six-axis robots with load/unload fixtures can form a small automated line for programming and commissioning practice." }
@@ -688,8 +688,8 @@ const EQUIPMENT = [
     category: { zh: "数控加工 · 2012 年产", en: "CNC machining · built 2012" },
     origin: { zh: "来源：佛山盛达金属制品（中型 · 340 人）", en: "Origin: Shengda Metal, Foshan (mid-sized, 340 staff)" },
     condition: { zh: "成色 6.5 成新 · 待更换主轴轴承", en: "65% condition · spindle bearings to be replaced" },
-    newPrice: "¥280,000（单台）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥280,000（单台）", en: "¥280,000 (each)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 9,
     fits: [{ zh: "数控技术", en: "CNC Technology" }, { zh: "模具设计与制造", en: "Mould Design & Manufacturing" }],
     desc: { zh: "两台立式加工中心，需更换主轴轴承后可用于铣削与模具加工教学。", en: "Two vertical machining centres; after spindle-bearing replacement they can serve milling and mould-making teaching." }
@@ -702,7 +702,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：佛山盛达金属制品（中型 · 340 人）", en: "Origin: Shengda Metal, Foshan (mid-sized, 340 staff)" },
     condition: { zh: "成色 8 成新 · 含冷水机与空压", en: "80% condition · chiller and air supply included" },
     newPrice: "¥260,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 10,
     fits: [{ zh: "机械制造及自动化", en: "Mechanical Manufacturing" }, { zh: "钣金工艺", en: "Sheet-Metal Technology" }],
     desc: { zh: "1500W 光纤激光切割机，可切 3mm 碳钢，适合钣金下料与工艺参数教学。", en: "A 1,500 W fibre laser able to cut 3 mm mild steel, suited to blanking and parameter teaching." }
@@ -714,8 +714,8 @@ const EQUIPMENT = [
     category: { zh: "电子测试 · 2016 年产", en: "Electronics test · built 2016" },
     origin: { zh: "来源：东莞宏图电子（中型 · 880 人）", en: "Origin: Hongtu Electronics, Dongguan (mid-sized, 880 staff)" },
     condition: { zh: "成色 7.5 成新 · 含测试治具", en: "75% condition · test fixtures included" },
-    newPrice: "¥150,000（套）",
-    price: "¥0（捐赠）",
+    newPrice: { zh: "¥150,000（套）", en: "¥150,000 (set)" },
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 11,
     fits: [{ zh: "电子信息工程技术", en: "Electronic Information Engineering" }, { zh: "电子产品制造技术", en: "Electronics Manufacturing" }],
     desc: { zh: "三套在线测试台与治具，含示波器与可编程电源，适合电子产品测试课程。", en: "Three in-line test benches with fixtures, scopes and programmable supplies, suited to electronics test courses." }
@@ -728,7 +728,7 @@ const EQUIPMENT = [
     origin: { zh: "来源：珠海天成食品机械（中型 · 310 人）", en: "Origin: Tiancheng Food Machinery, Zhuhai (mid-sized, 310 staff)" },
     condition: { zh: "成色 7.5 成新 · 可拆解教学", en: "75% condition · can be split for teaching" },
     newPrice: "¥220,000",
-    price: "¥0（捐赠）",
+    price: { zh: "¥0（捐赠）", en: "¥0 (donated)" },
     mentorId: 12,
     fits: [{ zh: "机电一体化技术", en: "Mechatronics" }, { zh: "包装工程技术", en: "Packaging Engineering" }],
     desc: { zh: "灌装、旋盖与封箱三段组成的整线，可整线运行也可拆解做部件教学。", en: "A line of filling, capping and cartoning sections; runs as a whole or splits for component teaching." }

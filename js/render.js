@@ -107,8 +107,8 @@
           '<div class="card-title"><h3>' + L(e.name) + '</h3><span class="meta">' + L(e.category) + "</span></div>" +
         "</div>" +
         '<div class="price-row">' +
-          '<div class="price-cell new"><span class="price-label">' + t("card.newprice") + "</span><span class='price-num'>" + e.newPrice + "</span></div>" +
-          '<div class="price-cell used"><span class="price-label">' + t("card.price") + "</span><span class='price-num'>" + e.price + "</span></div>" +
+          '<div class="price-cell new"><span class="price-label">' + t("card.newprice") + "</span><span class='price-num'>" + L(e.newPrice) + "</span></div>" +
+          '<div class="price-cell used"><span class="price-label">' + t("card.price") + "</span><span class='price-num'>" + L(e.price) + "</span></div>" +
         "</div>" +
         '<div class="tags"><span class="tag-title">' + t("card.directions.title") + "</span>" + fits + "</div>" +
         (mentor
@@ -312,8 +312,8 @@
 
     document.getElementById("quick-stats").innerHTML = [
       [L(e.condition), t("detail.condition")],
-      [e.newPrice, t("detail.newprice")],
-      [e.price, t("detail.price")],
+      [L(e.newPrice), t("detail.newprice")],
+      [L(e.price), t("detail.price")],
       [mentor ? (mentor.years + t("unit.years")) : "—", t("detail.mentor")]
     ].map(function (pair) {
       return (
@@ -349,8 +349,8 @@
           '<ul class="contact-list">' +
             '<li><span class="contact-label">' + t("detail.condition") + "</span><span>" + L(e.condition) + "</span></li>" +
             '<li><span class="contact-label">' + t("detail.origin") + "</span><span>" + L(e.origin) + "</span></li>" +
-            '<li><span class="contact-label">' + t("detail.newprice") + "</span><span>" + e.newPrice + "</span></li>" +
-            '<li><span class="contact-label">' + t("detail.price") + "</span><span>" + e.price + "</span></li>" +
+            '<li><span class="contact-label">' + t("detail.newprice") + "</span><span>" + L(e.newPrice) + "</span></li>" +
+            '<li><span class="contact-label">' + t("detail.price") + "</span><span>" + L(e.price) + "</span></li>" +
           "</ul>" +
         "</section>" +
         (mentor
