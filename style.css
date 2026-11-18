@@ -282,6 +282,13 @@ p { margin: 0; }
 .v2-foot-inner { padding: 44px var(--pad) 52px; display: flex; flex-direction: column; gap: 10px; }
 .v2-foot-brand { font-size: 17px; font-weight: 700; letter-spacing: 0.02em; }
 .v2-foot-line { font-size: 12.5px; color: #8FA3AE; letter-spacing: 0.04em; }
+.v2-foot-contact { margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.16); display: flex; flex-direction: column; gap: 8px; }
+.v2-foot-contact-title { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #7FA8FF; }
+.v2-foot-contact-row { font-size: 13.5px; color: #C9D6DE; display: flex; align-items: baseline; gap: 10px; }
+.v2-foot-contact-label { min-width: 44px; font-size: 12px; color: #8FA3AE; letter-spacing: 0.06em; }
+.v2-foot-contact-row a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 1px; }
+.v2-foot-contact-row a:hover { border-bottom-color: #7FA8FF; color: #7FA8FF; }
+
 
 .foot, .foot-polyu {
   background: var(--ink); color: #fff; padding: 40px var(--pad);
