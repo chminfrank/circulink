@@ -235,7 +235,7 @@
           );
         }).join("");
       }
-      document.addEventListener("circu-lang-changed", renderPeople);
+      window.addEventListener("circu-lang-changed", renderPeople);
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", renderPeople);
       } else {
